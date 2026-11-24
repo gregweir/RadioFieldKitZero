@@ -1,0 +1,9 @@
+/build/
+/.cache/
+/private/
+/artifacts/
+.env*
+*.deb
+*.mov
+*.mp4
+*.local

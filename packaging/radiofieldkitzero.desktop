@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Radio Field Kit Zero
+Comment=Pocket amateur radio field tools for the Cardputer Zero
+Exec=/usr/bin/radiofieldkitzero
+Icon=share/images/radiofieldkitzero.png
+Terminal=false
+Categories=Utility;
+StartupNotify=false
