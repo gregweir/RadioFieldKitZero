@@ -21,6 +21,23 @@ std::optional<double> frequency_mhz(std::string_view text) {
 
 double starting_length_m(double mhz) { return speed_m_per_us * wire_factor / (4.0 * mhz); }
 
+std::optional<double> vhf_mhz(std::string_view text) {
+    // Same shape as frequency_mhz, scoped to the VHF/UHF bands the J-pole and
+    // Slim Jim serve (20 MHz floor covers every 20 m band up to 70 cm).
+    if (text.empty() || text.size() > 9) return {};
+    bool dot = false, digit = false;
+    double value = 0.0, scale = 0.1;
+    for (char c : text) {
+        if (c == '.' && !dot) { dot = true; continue; }
+        if (c < '0' || c > '9') return {};
+        digit = true;
+        if (dot) { value += (c - '0') * scale; scale *= 0.1; }
+        else { value = value * 10 + c - '0'; }
+    }
+    if (!digit || value < 20.0 - 1e-9 || value > 470.0 + 1e-9) return {};
+    return std::clamp(value, 20.0, 470.0);
+}
+
 std::optional<Position> grid_center(std::string_view grid) {
     const auto n = grid.size();
     if (n != 4 && n != 6 && n != 8) return {};
@@ -42,6 +59,33 @@ std::optional<Position> grid_center(std::string_view grid) {
         w /= 10; h /= 10; lon += a * w; lat += b * h;
     }
     return Position{lat + h / 2, lon + w / 2};
+}
+
+std::string grid_from_position(Position pos) {
+    // Inverse of grid_center at six characters. Westward wrap makes 180.0E the
+    // same meridian as 180.0W, and a lat/lon outside ±90/±180 clamps instead
+    // of producing a letter past the A-R / A-X ranges. A lat of +90 clamps to
+    // just under the pole so the last digit and subsquare are selected.
+    const double lon = pos.longitude - 360.0 * std::floor((pos.longitude + 180.0) / 360.0);
+    const double lat = std::clamp(pos.latitude, -90.0, 89.9999999);
+    auto index = [](double v, double end) {
+        return static_cast<int>(std::clamp(std::floor(v), 0.0, end - 1));
+    };
+    const int lon_field = index((lon + 180) / 20, 18), lat_field = index((lat + 90) / 10, 18);
+    const int lon_cell = index(std::fmod(lon + 180, 20) / 2, 10);
+    const int lat_cell = index(std::fmod(lat + 90, 10), 10);
+    const int lon_sub = index(std::fmod(lon + 180, 2) * 12, 24);
+    const int lat_sub = index(std::fmod(lat + 90, 1) * 24, 24);
+    const char* letters = "ABCDEFGHIJKLMNOPQR";
+    const char* subs = "ABCDEFGHIJKLMNOPQRSTUVWX";
+    std::string grid;
+    grid += letters[lon_field];
+    grid += letters[lat_field];
+    grid += static_cast<char>('0' + lon_cell);
+    grid += static_cast<char>('0' + lat_cell);
+    grid += subs[lon_sub];
+    grid += subs[lat_sub];
+    return grid;
 }
 
 Path great_circle(Position from, Position to) {

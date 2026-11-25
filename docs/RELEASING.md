@@ -11,8 +11,9 @@ The project starts private. These are gates, not a publication announcement.
    forecast and cached values with timestamps, including no-cache/offline and
    stale-cache behaviour. Store data locally, never include the user's grid
    in a weather request, and don't route lookups through a new service.
-   Then verify cap GNSS on real hardware: explicit Use GPS, no fix, real fix,
-   manual fallback, missing cap and process exit. No LoRa transmission.
+   Then verify cap GNSS on real hardware: explicit Use GPS (Space on the
+   Maidenhead screen), no fix, real fix, manual fallback, missing cap and
+   process exit. No LoRa transmission.
 3. **Public export:** Audit the tracked tree *and all history* for local
    addresses/coordinates, credentials, generated binaries, private planning,
    automation tooling, personal media, and stale attribution. Use a clean

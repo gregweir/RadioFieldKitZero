@@ -31,5 +31,15 @@ int main() {
     check(rfk::solar_elevation({-80,0},june) < -12, "Antarctic winter night at noon");
     check(rfk::solar_elevation({0,0},june) > 65, "equatorial noon");
     check(rfk::solar_elevation({0,180},june) < -65, "antimeridian night at UTC noon");
+    check(rfk::grid_from_position({44.6488, -63.566}) == "FN84FP", "Halifax grid");
+    check(rfk::grid_from_position({48.1173, 11.522067}) == "JN58SC", "Munich grid");
+    check(rfk::grid_from_position({0, 0}) == "JJ00AA", "zero grid");
+    check(rfk::grid_from_position({0, 180}) == "AJ00AA", "antimeridian wraps");
+    check(rfk::grid_from_position({90, 0}) == "JR09AX", "north pole clamps");
+    // VHF/UHF gate for the J-pole and Slim Jim types mirrors frequency_mhz.
+    check(rfk::vhf_mhz("145") && close(*rfk::vhf_mhz("145"), 145.0), "VHF centre");
+    check(rfk::vhf_mhz("20") && rfk::vhf_mhz("470"), "VHF boundaries");
+    for (auto s : {"", ".", "19.999", "470.0001", "145..2", "abc"})
+        check(!rfk::vhf_mhz(s), s);
     return failures ? 1 : 0;
 }

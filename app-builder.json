@@ -1,0 +1,38 @@
+{
+  "package_name": "radiofieldkitzero",
+  "version": "0.1.0-1",
+  "app_name": "Radio Field Kit Zero",
+  "bin_name": "radiofieldkitzero",
+  "description": "Antenna cuts, Maidenhead paths and HF conditions for Cardputer Zero.",
+  "store": {
+    "summary": "Antenna cuts, Maidenhead paths and HF conditions for Cardputer Zero.",
+    "description": "Pocket amateur-radio tools for the Linux-based M5Stack Cardputer Zero. Calculate starting dimensions for dipoles, inverted-V, EFHW, loops, verticals, linked dipoles, J-poles and Slim Jims. Switch between metres and feet, and trim and check antennas before use.\n\nEnter two Maidenhead locators to get the short-path distance and initial true bearing. An optional compatible GNSS cap can fill the From grid on request; manual entry works without a cap. The app does not transmit over LoRa, send your coordinates, or run a background service.\n\nSee UTC and estimated daylight at your starting grid. Refresh NOAA solar flux and estimated Kp with internet access; previous readings remain available offline with their source times shown. Antenna and grid calculations work offline.\n\nDeveloped for Tartanleaf.com by Greg Weir VA1GW.",
+    "categories": [
+      "Radio & Comms",
+      "Home & Hobby"
+    ],
+    "screenshots": [
+      "screenshots/dipole.png",
+      "screenshots/maidenhead.png",
+      "screenshots/conditions.png",
+      "screenshots/linked.png"
+    ],
+    "icon": "packaging/icon.png",
+    "license": "MIT",
+    "source_repo": "https://github.com/gregweir/RadioFieldKitZero",
+    "author": {
+      "github": "gregweir",
+      "display_name": "VA1GW Greg Weir"
+    },
+    "share_code": "RFK0",
+    "permissions": {
+      "camera": false,
+      "microphone": false,
+      "imu": false,
+      "network": true,
+      "additional_hardware": true,
+      "background_service": false,
+      "external_display": false
+    }
+  }
+}

@@ -1,37 +1,36 @@
 # Radio Field Kit Zero
 
-Pocket tools for portable amateur radio on M5Stack Cardputer Zero. **Early
-prototype:** antenna lengths, manually entered Maidenhead paths, and
-UTC/daylight at the selected starting grid work without a network or any cap. The first physical device build has not been tested.
-This targets the Linux ARM64 Cardputer Zero, not the ESP32 Cardputer or ADV.
+Pocket tools for portable amateur radio on the Linux ARM64 M5Stack Cardputer Zero,
+not the ESP32 Cardputer or Cardputer ADV. Antenna lengths, manual Maidenhead paths
+and UTC/daylight work offline and without a cap.
 
-## Try the antenna and location tools
+## Use the field tools
 
-- Type an HF frequency (1.8–30 MHz). The dipole value is **per leg** and the
-  quarter-wave vertical value is **radiator only**, not a radial design.
-- **A** switches antenna type, **U** switches metres/feet, and **Tab** opens
-  the grid calculator. Enter a 4-, 6- or 8-character grid, then **Enter** moves
-  to the other grid. **Backspace** edits and **Esc** exits. Press **Tab** again
-  to see daylight at the From grid.
-- All heights, materials, feed points, and surroundings can change the length
-  needed. Cut long, trim and check before use. The estimate is 0.95 × wavelength
-  / 4, not a resonant-length measurement or a band authorization.
-- Paths use the great-circle short route between grid **centres** and show an
-  initial **true** bearing. Coincident and antipodal points have no single
-  bearing. The geographic line is not a radio propagation prediction.
-
-## What comes next
-
-GPS from the optional LoRa-1262 cap will save typing and won't be a prerequisite.
-The conditions view shows UTC and approximate sun elevation using [NOAA’s solar
-position equations](https://gml.noaa.gov/grad/solcalc/solareqns.PDF) and the
-device clock. Dated space-weather readings are planned. These readings will not predict a contact. No LoRa transmission or CC1101 feature
-is planned for the first release. See [release gates](docs/RELEASING.md).
+- On the antenna screen, type a frequency. **A** cycles the antenna types, including
+  dipole, inverted-V, EFHW, loop, delta, vertical, linked dipoles, J-pole and Slim Jim;
+  **U** switches metres/feet. HF types accept 1.8–30 MHz, and the J-pole and Slim Jim
+  models accept 20–470 MHz. Linked dipoles show cut lengths for preset band combinations.
+- The dipole result is **per leg**. All results are starting points: construction and
+  surroundings can change the length needed. Cut long, trim and check before use.
+- **Tab** opens the Maidenhead calculator. Enter a 4-, 6- or 8-character grid; **Enter**
+  moves to the other grid and **Backspace** edits. The short path is measured between
+  grid centres and shows an initial **true** bearing, not a propagation prediction.
+- On the Maidenhead screen, **Space** can fill the From grid from a fresh GNSS fix if
+  a compatible cap is attached and its ExtPort is powered. Press Space again to cancel.
+  No fix leaves manual entry available and retains your grids. The app does not switch
+  cap power, log or send your coordinates, or transmit over LoRa.
+- Press **Tab** again for HF Conditions: UTC and approximate daylight at the From grid
+  using [NOAA’s solar equations](https://gml.noaa.gov/grad/solcalc/solareqns.PDF), plus
+  solar flux and estimated Kp. **R** refreshes these two readings from NOAA over the
+  internet without sending a grid. Saved readings carry their own UTC source times.
+  Flux older than 36 hours or Kp older than six hours is marked “old”.
+- Press **Esc** to exit.
 
 ## Build and test on Linux
 
 Host dependencies: a C++17 compiler, CMake ≥3.25, SDL2 development
-libraries, and Git for the pinned LVGL checkout.
+libraries, and Git for the pinned LVGL and nlohmann JSON checkouts. Refresh
+requires curl and a system certificate bundle; the offline tools do not use them.
 
 ```sh
 cmake -S . -B build/desktop

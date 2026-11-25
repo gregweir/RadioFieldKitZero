@@ -2,6 +2,7 @@
 // Developed for Tartanleaf.com by Greg Weir VA1GW. SPDX-License-Identifier: MIT
 #include <ctime>
 #include <optional>
+#include <string>
 #include <string_view>
 
 namespace rfk {
@@ -12,8 +13,10 @@ constexpr double feet_per_m = 1.0 / 0.3048;
 struct Position { double latitude, longitude; };
 struct Path { double km; std::optional<double> bearing; };
 std::optional<double> frequency_mhz(std::string_view text);
+std::optional<double> vhf_mhz(std::string_view text);
 double starting_length_m(double mhz);
 std::optional<Position> grid_center(std::string_view grid);
+std::string grid_from_position(Position pos);
 Path great_circle(Position from, Position to);
 double solar_elevation(Position at, const std::tm& utc);
 }

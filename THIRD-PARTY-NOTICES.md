@@ -11,3 +11,6 @@
   Licenses: [LVGL-MIT.txt](licenses/LVGL-MIT.txt) and [Montserrat-OFL.txt](licenses/Montserrat-OFL.txt).
 - [SDL2](https://www.libsdl.org/), zlib, linked to the desktop simulator only and
   not included in the ARM64 package.
+- [JSON for Modern C++ v3.12.0](https://github.com/nlohmann/json/tree/v3.12.0),
+  MIT, used to read NOAA feeds and locally saved readings.
+  License: [nlohmann-json-MIT.txt](licenses/nlohmann-json-MIT.txt).
